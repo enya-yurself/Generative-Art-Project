@@ -1,8 +1,11 @@
 function Particle() {
   this.pos = createVector(random(width), random(height))
   this.vel = createVector(0, 0);
-  this.acc = createVector(0, 0)
+  this.acc = createVector(0, 0);
   this.maxspeed = 3;
+  this.h = 0;
+  this.s = 90;
+  this.b = 80;
   this.prevPos = this.pos.copy()
   this.update = function() {
     this.vel.add(this.acc);
@@ -21,8 +24,33 @@ function Particle() {
     this.acc.add(force)
   }
   this.show = function() {
-    stroke(0, 5);
-    strokeWeight(2);
+    if (modeSelect.value() === "Rainbow") {
+      stroke(this.h, this.s, this.b, 5);
+      this.h += 1
+      if (this.h > 360) {
+        this.h -= 360
+      }
+    } else if (modeSelect.value() === "Black") {
+      stroke(0, 0, 0, 5);
+    } else if (modeSelect.value() === "Gradient") {
+
+      let gradColor = lerpColor(color1.color(), color2.color(), colorInc)
+      gradColor.setAlpha(5);
+      stroke(gradColor);
+      if (colorInc === 0) {
+        lerpDir = true
+      } else if (colorInc === 1) {
+        lerpDir = false
+      } else {
+        if (lerpDir===true) {
+          colorInc += 0.01
+        } else {
+          colorInc -= 0.01
+        }
+      }
+    }
+
+    // strokeWeight(2);
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)
     // point(this.pos.x,this.pos.y)
     this.updatePrev();
