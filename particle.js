@@ -39,8 +39,10 @@ function Particle() {
       stroke(gradColor);
       if (colorInc === 0) {
         lerpDir = true
+        colorInc += 0.01;
       } else if (colorInc === 1) {
         lerpDir = false
+        colorInc = 0;
       } else {
         if (lerpDir===true) {
           colorInc += 0.01
@@ -48,7 +50,6 @@ function Particle() {
           colorInc -= 0.01
         }
       }
-    }
 
     // strokeWeight(2);
     line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y)
